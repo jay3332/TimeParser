@@ -8,18 +8,14 @@ print(timeparser.parse("in 4s"))
 ```
 ### Example Usage (Discord Bot)
 ```py
-import discord
 import timeparser
+from discord.ext import commands
 
-client = discord.Client()
+bot = commands.Bot("!")
 
-@client.event
-async def on_message(message):
-  if message.author.bot:
-    return
-  if parsed := timeparser.parse(message.content):
-    print(parsed)
-    print(repr(parsed))
+@bot.command()
+async def parse_time(ctx, *, time: timeparser.TimeConverter):
+  await ctx.send(f"This time is {time} in the {time.direction}.")
 
-client.run("TOKEN")
+bot.run("TOKEN")
 ```
