@@ -22,8 +22,9 @@ class Time:
     def __init__(self, dt, reason=None):
         self.time = dt
         self.reason = reason
-        self.delta = dt - datetime.utcnow()
-
+        self._future = dt > datetime.utcnow()
+        self.direction = "future" if self._future else "past"
+        self.delta = dt - datetime.utcnow() if self._future else datetime.utcnow() - dt
         self.unix = (dt - datetime.utcfromtimestamp(0)).total_seconds()
         self.raw_delta = self.delta.total_seconds()
 
